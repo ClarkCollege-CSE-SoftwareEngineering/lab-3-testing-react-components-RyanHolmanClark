@@ -1,3 +1,12 @@
+**Name** Ryan Holman
+**Reflection Section**
+When you are using getByTestId you are testing the implementation, you are looking for a component you created with a specific testId you assigned to it. If that component is replaced and the testId not reused the test will fail and have to be refactored. When using getByRole and getByLabelText you are testing how the component is displaced in the UI. That means if the component is replaced with something that is doing the same thing your test will be less likely to fail needing refactoring. queryBy will return null when it is unable to find what it is searching for vs getBy with will throw an error if it cannot find what it is looking for. queryBy is useful when you want to test that something has not appeared on the screen. When you mock your API for testing it allows you to develop a front end before a back end has been created for it and even when that back end does exist you can still test your front end even if the back end is down. However you will not gain as much confidence in your front end when it is not tested against a functioning back end.
+**Key Concepts**
+React Testing Library
+Queries priority leading with getByRole for accessibility
+get vs query vs find
+
+
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/OFlm_OiO)
 # Lab 3: Testing React Components
 
@@ -351,6 +360,8 @@ describe('TaskItem', () => {
 
 🤔 **Reflection Question:** Notice how we're using `getByRole` with accessible names like `name: /delete "task to delete"/i`. How does this approach differ from using `getByTestId('delete-button')`? Which approach better reflects how users interact with the UI? (Hint: Consider Kent C. Dodds' guiding principle from your readings.)
 
+With gitByTestId we are testing a component instance instead of the rendered component. By testing the rendered component we are more closely test how a user will interact with the UI
+
 ---
 
 ## Part 3: Testing Forms with User Events (25 minutes)
@@ -568,6 +579,7 @@ describe('AddTaskForm', () => {
 
 🤔 **Reflection Question:** We used `queryByRole('alert')` instead of `getByRole('alert')` when checking that an error message does NOT exist. Why? What would happen if we used `getByRole` for an element that doesn't exist?
 
+getByRole would throw and error when an element does not exist where queryByRole returns a null pointer that we can use to confirm nothing exists. 
 ---
 
 ## Part 4: Mocking API Calls and Async Testing (30 minutes)
@@ -895,6 +907,7 @@ describe('TaskList', () => {
 
 🤔 **Reflection Question:** Compare how we used `screen.findByText` (returns a Promise, waits for element) versus `screen.getByText` (synchronous, throws immediately if not found). When should you use each? How does this connect to the discussion of `findBy` queries in the React Testing Library documentation?
 
+screen.findByText was used when testing the TaskList functions with the MOCKed API. It is best to use find when you code need to wait for a response from code outside its own runtime. 
 ---
 
 ## Part 5: Your Turn — Write Your Own Tests (20 minutes)

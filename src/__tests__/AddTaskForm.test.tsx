@@ -84,7 +84,7 @@ describe('AddTaskForm', () => {
                 expect(onAdd).not.toHaveBeenCalled();
             });
 
-            // TASK 5.3
+            // TASK 5.3------------------
             it('shows error when title is only whitespace', async () => {
                 const user = userEvent.setup();
                 render(<AddTaskForm onAdd={vi.fn()} />);
@@ -98,7 +98,7 @@ describe('AddTaskForm', () => {
 
             })
 
-            it('show error when title is too long', () => async () => {
+            it('show error when title is too long', async () => {
                 const user = userEvent.setup();
                 render(<AddTaskForm onAdd={vi.fn()} />);
 
@@ -107,8 +107,9 @@ describe('AddTaskForm', () => {
                 await user.type(input, 'This Title is going to be more then 60 characters almost there');
                 await user.click(screen.getByRole('button', { name: /add task/i }));
 
-                expect(await screen.getByRole('alert')).toHaveTextContent(/60 characters or less/i);
+                expect(screen.getByRole('alert')).toHaveTextContent(/60 characters or less/i);
             })
+            //---------------------------
 
             it('clears error when user starts typing', async () => {
                 const user = userEvent.setup();
