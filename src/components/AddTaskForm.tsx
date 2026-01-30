@@ -23,6 +23,11 @@ export function AddTaskForm({ onAdd }: AddTaskFormProps) {
             return;
         }
 
+        if (trimmedTitle.length > 60) {
+            setError("Task title must be 60 characters or less");
+            return;
+        }
+
         onAdd(trimmedTitle);
         setTitle('');
         setError(null);

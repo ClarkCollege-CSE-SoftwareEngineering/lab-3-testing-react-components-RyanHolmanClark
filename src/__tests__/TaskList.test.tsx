@@ -86,6 +86,28 @@ describe('TaskList', () => {
       // Verify API was called correctly
       expect(mockedTaskApi.createTask).toHaveBeenCalledWith({ title: 'New task' });
     });
+    // TODO completed
+    it('handles when createTask fails', async () => {
+      const user = userEvent.setup();
+
+      // fetchTasks returns and empty json
+      mockedTaskApi.fetchTasks.mockResolvedValue([]);
+
+      // createTask fails to resolve
+      mockedTaskApi.createTask.mockRejectedValue(new Error("Creation Error"));
+
+      render(<TaskList />);
+
+      // Wait for loading to complete
+      await screen.findByText(/no tasks yet/i);
+
+      // Fill out form and submit
+      await user.type(screen.getByLabelText(/task title/i), 'New task');
+      await user.click(screen.getByRole('button', { name: /add task/i }));
+
+      expect(await screen.findByRole('alert')).toHaveTextContent(/failed to add/i);// Error alert appears
+      expect(await screen.findByText(/no tasks yet/i)).toBeInTheDocument();// no task was added to the list
+    });
   });
 
   describe('toggling tasks', () => {
@@ -147,16 +169,7 @@ describe('TaskList', () => {
     });
   });
 
-  describe('creating tasks', () => {
-
-    it('handles when createTask fails', async () => {
-        mockedTaskApi.createTask.mockRejectedValue(new Error("Creation Error"));
-        render(<TaskList />);
-
-        expect(await screen.queryByRole('alert')).toHaveTextContent(/failed to add/i);
-    });
-    })
-
   // TODO: Add your own test - test error handling when createTask fails
   // Hint: Use mockRejectedValue and check for the error alert
+  // completed line 89
 });
